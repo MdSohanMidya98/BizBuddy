@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BizBuddy — Smart Business &amp; GST OS in 3D</title>
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" onerror="this.disabled=true" />
+  <!-- Storage safety net: some origins (file://) expose localStorage but throw on use -->
+  <script src="backend.js" defer></script> <!-- Credit: Made by @Itz_ Sparky~98. Moved to backend.js (16 lines): <script> -->
+  <!-- </script> -->
+  <!-- Old/limited WebViews lack these; stub them so one missing API can't break the app -->
+  <!-- Moved to backend.js (12 lines): <script> -->
+  <!-- </script> -->
+  <!-- Tailwind prebuilt at build time, so the packaged app needs no network -->
+  <link rel="stylesheet" id="tailwind-prebuilt" href="ui-ux.css"> <!-- Moved to ui-ux.css (1 lines): <style id="tailwind-prebuilt"> -->
+  <!-- </style> -->
+  <!-- Moved to backend.js (22 lines): <script> -->
+  <!-- </script> -->
+  <!-- Moved to ui-ux.css (958 lines): <style> -->
+<!-- </style> -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#F97316">
+  <link rel="icon" href="icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body class="antialiased selection:bg-orange-500/30 selection:text-orange-200">
+<!-- ===== BizBuddy boot splash (added) ===== -->
+<div id="bbSplash" aria-hidden="true">
+  <div class="bb-splash-glow"></div>
+  <div class="bb-splash-card">
+    <svg class="bb-splash-mark" viewBox="0 0 512 512" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="bbGrad" x1="0" y1="0" x2="0.35" y2="1">
+          <stop offset="0%" stop-color="#FDE65A"/>
+          <stop offset="55%" stop-color="#FCB037"/>
+          <stop offset="100%" stop-color="#F98428"/>
+        </linearGradient>
+      </defs>
+      <g class="bb-mark-body">
+        <!-- B stem + bowls -->
+        <path d="M132 164a14 14 0 0 1 14-14h16v212h-16a14 14 0 0 1-14-14z" fill="url(#bbGrad)"/>
+        <path d="M156 150h62a52 52 0 0 1 0 104h-62z" fill="url(#bbGrad)"/>
+        <path d="M156 254h66a54 54 0 0 1 0 108h-66z" fill="url(#bbGrad)"/>
+        <circle cx="212" cy="202" r="26" fill="#110c04"/>
+        <circle cx="218" cy="308" r="28" fill="#110c04"/>
+      </g>
+      <!-- rising bars -->
+      <rect class="bb-bar" x="306" y="300" width="30" height="62"  rx="11" fill="#FBBF24"/>
+      <rect class="bb-bar" x="348" y="254" width="30" height="108" rx="11" fill="#FBBF24"/>
+      <rect class="bb-bar" x="390" y="206" width="30" height="156" rx="11" fill="#FDE047"/>
+      <rect class="bb-bar" x="432" y="152" width="30" height="210" rx="11" fill="#FFFBEB"/>
+    </svg>
+    <div class="bb-splash-word">Biz<span>Buddy</span></div>
+    <div class="bb-splash-tag">SPATIAL GST OS</div>
+    <div class="bb-splash-bar"><i></i></div>
+  </div>
+</div>
+<!-- Moved to ui-ux.css (40 lines): <style> -->
+<!-- </style> -->
+<!-- Moved to backend.js (22 lines): <script> -->
+<!-- </script> -->
+<!-- ===== /boot splash ===== -->
+
+
+  <!-- Interactive 3D Wireframe Torus-Knot & Particle Field Canvas -->
+  <canvas id="spatial3DCanvas" aria-hidden="true"></canvas>
+
+  <!-- Floating 3D Liquid Glass Geometric Prisms Layer -->
+  <div id="spatialPrismField" class="spatial-prism-field" aria-hidden="true">
+    <div id="spatialPrismRig" class="spatial-prism-rig">
+      <div class="glass-poly-3d rounded-[28px]" style="width:110px;height:110px;left:4%;top:16%;--pz:80px;--pdur:21s;"></div>
+      <div class="glass-poly-3d rounded-full" style="width:84px;height:84px;right:6%;top:14%;--pz:140px;--pdur:18s;"></div>
+      <div class="glass-poly-3d rounded-[24px]" style="width:136px;height:136px;right:8%;top:48%;--pz:-60px;--pdur:27s;"></div>
+      <div class="glass-poly-3d rounded-full" style="width:96px;height:96px;left:7%;top:62%;--pz:110px;--pdur:23s;"></div>
+      <div class="glass-poly-3d rounded-[22px]" style="width:74px;height:74px;left:46%;top:80%;--pz:160px;--pdur:19s;"></div>
+      <!-- Transparent Morphing Liquid Glass Droplets -->
+      <div class="liquid-blob-3d" style="width:155px;height:135px;left:14%;top:28%;--lz:95px;--mdur:9.5s;--ddur:19s;"></div>
+      <div class="liquid-blob-3d" style="width:185px;height:165px;right:13%;top:32%;--lz:125px;--mdur:11s;--ddur:23s;"></div>
+      <div class="liquid-blob-3d" style="width:130px;height:145px;left:22%;top:72%;--lz:70px;--mdur:8.5s;--ddur:17s;"></div>
+      <div class="liquid-blob-3d" style="width:140px;height:120px;right:24%;top:76%;--lz:110px;--mdur:10.5s;--ddur:21s;"></div>
+    </div>
+  </div>
+
+  <!-- iOS 26 / visionOS Liquid Glass Physics Cursor Layer -->
+  <div id="iosLiquidCursorLayer" aria-hidden="true">
+    <div class="ios-trail-droplet" style="width:22px;height:22px;"></div>
+    <div class="ios-trail-droplet" style="width:18px;height:18px;"></div>
+    <div class="ios-trail-droplet" style="width:14px;height:14px;"></div>
+    <div class="ios-trail-droplet" style="width:10px;height:10px;"></div>
+    <div class="ios-trail-droplet" style="width:7px;height:7px;"></div>
+    <div id="iosGlassLens"></div>
+    <div id="iosCursorCore"></div>
+  </div>
+
+  <!-- Ambient Liquid Mesh Orbs -->
+  <div class="ambient-orb orb-1" aria-hidden="true"></div>
+  <div class="ambient-orb orb-2" aria-hidden="true"></div>
+  <div class="ambient-orb orb-3" aria-hidden="true"></div>
+  <div class="fixed inset-0 spatial-grid pointer-events-none z-0" aria-hidden="true"></div>
+
+  <!-- =========================================================
+       FLOATING APPLE DYNAMIC ISLAND NAVBAR
+  ========================================================== -->
+  <header class="fixed top-4 inset-x-0 z-40 px-4 sm:px-6">
+    <nav aria-label="Primary Navigation" class="max-w-7xl mx-auto liquid-glass-pill rounded-full px-3 sm:px-5 py-2.5 flex items-center justify-between gap-2 transition-all duration-300">
+      <a href="#top" id="navBrandHome" class="flex items-center gap-2.5 group focus:outline-none shrink-0">
+        <div id="brandLogoStage" class="brand-logo-stage relative">
+          <div class="absolute -inset-1.5 rounded-2xl bg-gradient-to-tr from-orange-500/50 via-amber-400/35 to-yellow-200/30 blur-md opacity-80 group-hover:opacity-100 transition-all pointer-events-none"></div>
+          <div id="brandLiquidIcon" class="brand-liquid-squircle flex items-center justify-center">
+            <div class="brand-emblem-3d-layer">
+              <svg class="w-9 h-9" viewBox="0 0 64 64" fill="none">
+                <path d="M18.2 14H33.6C39.6 14 43.8 17.2 43.8 22.2C43.8 25.4 41.9 27.9 39 29.2C42.8 30.4 45.3 33.4 45.3 37.7C45.3 43.5 40.6 47.6 34 47.6H18.2V14ZM24.2 19V26.6H32.3C35 26.6 36.8 25 36.8 22.8C36.8 20.6 35 19 32.3 19H24.2ZM24.2 31.6V42.6H33.2C36.3 42.6 38.3 40.8 38.3 37.1C38.3 33.4 36.3 31.6 33.2 31.6H24.2Z" fill="#F97316" fill-opacity="0.45" stroke="#FED7AA" stroke-width="1.7"/>
+                <rect x="24.5" y="38.6" width="2.65" height="6.2" rx="0.55" fill="#FBBF24"/>
+                <rect x="27.85" y="35.7" width="2.65" height="9.1" rx="0.55" fill="#FBBF24"/>
+                <rect x="31.2" y="32.5" width="2.65" height="12.3" rx="0.55" fill="#FDE047"/>
+                <rect x="34.55" y="28.9" width="2.65" height="15.9" rx="0.55" fill="#FFFBEB"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-display font-extrabold text-lg sm:text-xl tracking-[-0.03em] leading-none text-white">
+            Biz<span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500">Buddy</span>
+          </span>
+          <span class="text-[9px] font-semibold tracking-[0.2em] uppercase text-orange-300/75 mt-0.5 hidden sm:inline">Spatial GST OS</span>
+        </div>
+      </a>
+
+      <div id="landingNavLinks" class="hidden lg:flex items-center gap-1 bg-white/[0.04] rounded-full px-2 py-1 border border-white/[0.08]">
+        <a href="#health-score" class="px-3 py-1.5 rounded-full text-xs font-medium text-slate-300 hover:text-white hover:bg-white/[0.08] transition-colors">Health Score</a>
+        <a href="#features" class="px-3 py-1.5 rounded-full text-xs font-medium text-slate-300 hover:text-white hover:bg-white/[0.08] transition-colors">Features</a>
+        <a href="#categories" class="px-3 py-1.5 rounded-full text-xs font-medium text-slate-300 hover:text-white hover:bg-white/[0.08] transition-colors">3D Cube</a>
+        <a href="#gst-engine" class="px-3 py-1.5 rounded-full text-xs font-medium text-slate-300 hover:text-white hover:bg-white/[0.08] transition-colors">GST Engine</a>
+        <a href="#market-intel" class="px-3 py-1.5 rounded-full text-xs font-medium text-slate-300 hover:text-white hover:bg-white/[0.08] transition-colors">Market Intel</a>
+        <a href="#trust-support" class="px-3 py-1.5 rounded-full text-xs font-medium text-slate-300 hover:text-white hover:bg-white/[0.08] transition-colors">Trust &amp; Support</a>
+      </div>
+
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <button id="themeToggleBtn" type="button" title="Switch Light / Dark Mode" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/[0.06] hover:bg-white/[0.14] border border-white/[0.14] text-slate-200 transition-all cursor-pointer">
+          <span id="themeIcon">🌙</span>
+          <span id="themeLabel" class="hidden md:inline">Dark</span>
+        </button>
+
+        <button id="motionToggleBtn" type="button" aria-pressed="true" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.14] text-slate-200 transition-all cursor-pointer" title="Toggle 3D Motion Effects">
+          <span id="motionDot" class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]"></span>
+          <span class="hidden xl:inline">3D</span>
+        </button>
+
+        <button id="openLoginBtn" type="button" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white/[0.07] hover:bg-white/[0.15] border border-white/[0.16] text-white transition-all cursor-pointer">
+          Log In
+        </button>
+
+        <button id="openDashboardBtn" type="button" class="keep-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 shadow-[0_0_24px_rgba(249,115,22,0.45)] border border-white/25 transition-all active:scale-95 cursor-pointer">
+          Open Dashboard
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- =========================================================
+       LANDING VIEW WRAPPER
+  ========================================================== -->
+  <main id="landingView" class="relative z-10 pt-28 sm:pt-36 pb-20">
+    <!-- HERO SECTION -->
+    <section id="top" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-20 lg:pb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div class="lg:col-span-6 space-y-7 text-center lg:text-left">
+          <div class="inline-flex items-center gap-2.5 liquid-glass-pill rounded-full px-4 py-1.5 text-xs font-semibold text-orange-200">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+            </span>
+            <span>BizBuddy Spatial OS · AI Copilot &amp; 12-Module Dashboard</span>
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold tracking-tight leading-[1.08] text-white">
+            Smart Business &amp; GST Management,
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500">
+              Reimagined in 3D.
+            </span>
+          </h1>
+
+          <p class="text-base sm:text-lg text-slate-300/90 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+            Run invoicing, GSTR-2B reconciliation, inventory, customer dues, and real-time <span class="text-white font-semibold">Business Health Scoring</span> inside an Apple Liquid Glass 3D workspace powered by <span class="text-orange-300 font-semibold">BizBuddy AI</span>.
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-1">
+            <button type="button" id="heroLaunchDashBtn" class="keep-white w-full sm:w-auto px-7 py-3.5 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-orange-500 via-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 shadow-[0_12px_32px_-6px_rgba(249,115,22,0.6)] border border-white/30 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer">
+              <span>Enter 12-Module Dashboard</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+            </button>
+            <button type="button" id="heroOpenAiBtn" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl font-semibold text-sm text-white liquid-glass glass-glare hover:bg-white/[0.1] transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer">
+              <span class="w-2.5 h-2.5 rounded-full bg-orange-400 shadow-[0_0_10px_#fb923c]"></span>
+              <span>Ask BizBuddy AI</span>
+            </button>
+          </div>
+
+          <div class="pt-4 grid grid-cols-3 gap-4 max-w-lg mx-auto lg:mx-0 border-t border-white/10">
+            <div>
+              <div class="text-xl sm:text-2xl font-bold text-white">₹4,800Cr+</div>
+              <div class="text-xs text-slate-400 mt-0.5">Invoices Processed</div>
+            </div>
+            <div>
+              <div class="text-xl sm:text-2xl font-bold text-amber-300">88 / 100</div>
+              <div class="text-xs text-slate-400 mt-0.5">Avg Health Score</div>
+            </div>
+            <div>
+              <div class="text-xl sm:text-2xl font-bold text-white">42,000+</div>
+              <div class="text-xs text-slate-400 mt-0.5">Indian MSMEs</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Interactive 3D Spatial Stage -->
+        <div class="lg:col-span-6 flex items-center justify-center">
+          <div id="heroStage" class="hero-perspective relative w-full max-w-[520px] py-10 px-4 sm:px-8 flex items-center justify-center">
+            <div id="heroRig" class="hero-rig relative w-full hero-float-idle">
+              <div class="orbit-ring-1" aria-hidden="true"><span class="orbit-node"></span></div>
+              <div class="orbit-ring-2" aria-hidden="true"><span class="orbit-node" style="top: auto; bottom: -5px; background: #F59E0B;"></span></div>
+              <div class="orbit-ring-3" aria-hidden="true"><span class="orbit-node" style="left: -5px; top: 50%; background: #FDE68A;"></span></div>
+
+              <div class="depth-badge-1 hidden sm:flex items-center gap-2.5 liquid-glass-pill rounded-2xl px-3.5 py-2 absolute -top-6 -left-6 z-20">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399]"></span>
+                <div>
+                  <div class="text-[11px] font-bold text-white">GSTR-2B Synced</div>
+                  <div class="text-[10px] text-emerald-300 font-semibold">₹2,14,800 ITC Ready</div>
+                </div>
+              </div>
+
+              <div class="depth-badge-2 hidden sm:flex items-center gap-2.5 liquid-glass-pill rounded-2xl px-3.5 py-2 absolute -bottom-5 -left-5 z-20">
+                <span class="w-6 h-6 rounded-lg bg-orange-500/25 border border-orange-400/40 text-orange-300 font-bold text-xs flex items-center justify-center">₹</span>
+                <div>
+                  <div class="text-[11px] font-bold text-white">UPI Auto-Settle</div>
+                  <div class="text-[10px] text-amber-300">0.4s Instant Ledger</div>
+                </div>
+              </div>
+
+              <div class="liquid-glass glass-glare rounded-[30px] p-6 relative z-10 preserve-3d">
+                <div class="flex items-center justify-between pb-4 border-b border-white/10">
+                  <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+                    <span class="w-3 h-3 rounded-full bg-amber-400/80"></span>
+                    <span class="w-3 h-3 rounded-full bg-emerald-400/80"></span>
+                    <span class="ml-1.5 font-display text-xs font-bold tracking-tight text-slate-200">BizBuddy Live Cockpit</span>
+                  </div>
+                  <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-orange-500/20 text-orange-300 border border-orange-400/40">GSTN ONLINE</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 my-4">
+                  <div class="rounded-2xl bg-white/[0.05] border border-white/10 p-3.5">
+                    <div class="text-[11px] text-slate-400">Monthly Turnover</div>
+                    <div class="text-xl sm:text-2xl font-extrabold text-white mt-1">₹18,45,000</div>
+                    <div class="text-[10px] text-emerald-300 mt-1">↑ +26.4% vs last mo</div>
+                  </div>
+                  <div class="rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-400/35 p-3.5">
+                    <div class="text-[11px] text-orange-200">Business Health</div>
+                    <div class="text-xl sm:text-2xl font-extrabold text-amber-300 mt-1">88 / 100</div>
+                    <div class="text-[10px] text-emerald-300 mt-1">AAA Grade Liquidity</div>
+                  </div>
+                </div>
+
+                <div class="rounded-2xl bg-white/[0.04] border border-white/10 p-3.5">
+                  <div class="flex items-center justify-between text-[11px] text-slate-400 mb-2.5">
+                    <span>SPATIAL GST &amp; CASHFLOW PULSE</span>
+                    <span class="text-orange-300 font-semibold">38 Bills Paid Today</span>
+                  </div>
+                  <div class="grid grid-cols-6 gap-2 items-end h-16">
+                    <div class="bg-orange-500/35 rounded-t-md h-[48%]"></div>
+                    <div class="bg-orange-500/50 rounded-t-md h-[62%]"></div>
+                    <div class="bg-amber-400/60 rounded-t-md h-[56%]"></div>
+                    <div class="bg-orange-400/75 rounded-t-md h-[78%]"></div>
+                    <div class="bg-amber-400/80 rounded-t-md h-[86%]"></div>
+                    <div class="bg-gradient-to-t from-orange-500 to-amber-300 rounded-t-md h-[100%] shadow-[0_0_16px_rgba(249,115,22,0.55)]"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="depth-badge-3 hidden sm:flex items-center gap-2 liquid-glass-pill rounded-full px-4 py-2 absolute -bottom-4 -right-4 z-20">
+                <span class="w-2 h-2 rounded-full bg-orange-400 shadow-[0_0_10px_#fb923c]"></span>
+                <span class="text-xs font-semibold text-white">E-Invoice Verified · IRN Active</span>
+              </div>
+
+              <div class="depth-badge-4 hidden sm:flex items-center gap-2 liquid-glass-pill rounded-2xl px-3.5 py-2 absolute -top-6 -right-5 z-20">
+                <span class="keep-white w-6 h-6 rounded-lg bg-gradient-to-br from-orange-400 to-amber-500 text-obsidian font-black text-xs flex items-center justify-center">AI</span>
+                <div>
+                  <div class="text-[11px] font-bold text-white">3D Cash Radar</div>
+                  <div class="text-[10px] text-amber-300">+₹4.8L Runway</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         3. BUSINESS HEALTH SCORE™ SECTION (INTERACTIVE 3D GAUGE)
+    ========================================================== -->
+    <section id="health-score" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="liquid-glass glass-glare rounded-[34px] p-6 sm:p-12 reveal-up">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div class="lg:col-span-5 flex flex-col items-center justify-center">
+            <div class="relative w-64 h-64 flex items-center justify-center">
+              <div class="absolute inset-3 rounded-full bg-gradient-to-tr from-orange-500/30 via-amber-400/20 to-emerald-400/20 blur-2xl pointer-events-none"></div>
+              <svg class="w-60 h-60 -rotate-90 drop-shadow-[0_0_24px_rgba(249,115,22,0.45)]" viewBox="0 0 220 220">
+                <circle cx="110" cy="110" r="90" stroke="rgba(255,255,255,0.1)" stroke-width="16" fill="none" />
+                <circle id="healthScoreRing" cx="110" cy="110" r="90" stroke="url(#healthGrad)" stroke-width="16" stroke-linecap="round" fill="none" stroke-dasharray="565.48" stroke-dashoffset="67.85" class="transition-all duration-500" />
+                <defs>
+                  <linearGradient id="healthGrad" x1="0" y1="0" x2="220" y2="220" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#F97316" />
+                    <stop offset="0.55" stop-color="#FBBF24" />
+                    <stop offset="1" stop-color="#34D399" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-orange-300">Health Index</span>
+                <span id="healthScoreNumber" class="font-display text-5xl font-black text-white mt-1">88</span>
+                <span id="healthScoreGrade" class="mt-1.5 px-3 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/40">AAA · Strong</span>
+              </div>
+            </div>
+            <p class="text-xs text-slate-400 text-center mt-2">Real-time Credit, GST Compliance &amp; Margin Telemetry</p>
+          </div>
+
+          <div class="lg:col-span-7 space-y-6">
+            <div>
+              <span class="inline-block px-3.5 py-1 rounded-full text-xs font-semibold text-orange-300 bg-orange-500/10 border border-orange-400/25 mb-3">
+                Business Health Score™
+              </span>
+              <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                Diagnose Financial Fitness in Seconds
+              </h2>
+              <p class="text-sm sm:text-base text-slate-300/90 mt-2">
+                Adjust your business metrics below to simulate how profit margins, timely GSTR filings, and receivable collections impact your live BizBuddy Health Score.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="rounded-2xl bg-white/[0.05] border border-white/15 p-4">
+                <div class="flex justify-between text-xs font-semibold mb-2">
+                  <span class="text-slate-300">Net Profit Margin</span>
+                  <span id="hsMarginVal" class="text-orange-300 font-bold">32%</span>
+                </div>
+                <input id="hsMarginSlider" type="range" min="5" max="60" value="32" class="w-full accent-orange-500 cursor-pointer" />
+              </div>
+              <div class="rounded-2xl bg-white/[0.05] border border-white/15 p-4">
+                <div class="flex justify-between text-xs font-semibold mb-2">
+                  <span class="text-slate-300">GST On-Time Filing</span>
+                  <span id="hsGstVal" class="text-amber-300 font-bold">96%</span>
+                </div>
+                <input id="hsGstSlider" type="range" min="40" max="100" value="96" class="w-full accent-amber-500 cursor-pointer" />
+              </div>
+              <div class="rounded-2xl bg-white/[0.05] border border-white/15 p-4">
+                <div class="flex justify-between text-xs font-semibold mb-2">
+                  <span class="text-slate-300">Dues Collected</span>
+                  <span id="hsDuesVal" class="text-emerald-300 font-bold">84%</span>
+                </div>
+                <input id="hsDuesSlider" type="range" min="20" max="100" value="84" class="w-full accent-emerald-500 cursor-pointer" />
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-white/10">
+              <div class="text-xs text-slate-300">
+                <span class="font-bold text-white">AI Diagnosis:</span> <span id="hsDiagnosis">Healthy cash reserves &amp; 96% GSTR-2B ITC match qualify you for pre-approved MSME credit lines.</span>
+              </div>
+              <button type="button" id="healthAiAdviceBtn" class="keep-white px-4 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 shadow-[0_8px_20px_rgba(249,115,22,0.4)] cursor-pointer">
+                ✨ Ask AI How to Reach 98+
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         3D COVERFLOW WORKFLOW DECK
+    ========================================================== -->
+    <section id="workflow-3d" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center max-w-2xl mx-auto mb-10 reveal-up">
+        <span class="inline-block px-3.5 py-1 rounded-full text-xs font-semibold text-amber-300 bg-amber-500/10 border border-amber-400/25 mb-3">
+          3D Live Workflow Deck
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          Autonomous Finance Pipelines in Spatial 3D
+        </h2>
+      </div>
+
+      <div class="coverflow-stage flex items-center justify-center reveal-up">
+        <div id="coverflowTrack" class="coverflow-track">
+          <div class="coverflow-item liquid-glass glass-glare p-6 flex flex-col justify-between" data-index="0">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-orange-500/20 text-orange-300 border border-orange-400/35">01 · AI VISION OCR</span>
+              <span class="text-xs font-bold text-emerald-300">99.8% Accuracy</span>
+            </div>
+            <div class="my-4">
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-400 to-amber-500 flex items-center justify-center text-obsidian font-black text-lg mb-4">OCR</div>
+              <h3 class="text-xl font-extrabold text-white">AI Receipt &amp; Bill Scanner</h3>
+              <p class="text-xs sm:text-sm text-slate-300/90 mt-2 leading-relaxed">Extracts GSTIN, HSN codes, CGST/SGST splits, and line items in 0.3s.</p>
+            </div>
+            <div class="pt-3 border-t border-white/10 flex justify-between text-xs"><span class="text-slate-400">Scanned Today</span><span class="font-bold text-orange-300">1,284 Bills</span></div>
+          </div>
+
+          <div class="coverflow-item liquid-glass glass-glare p-6 flex flex-col justify-between" data-index="1">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-400/35">02 · GSTN SYNC</span>
+              <span class="text-xs font-bold text-emerald-300">Live 2B Match</span>
+            </div>
+            <div class="my-4">
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-obsidian font-black text-lg mb-4">2B</div>
+              <h3 class="text-xl font-extrabold text-white">Auto GSTR-2B Reconciliation</h3>
+              <p class="text-xs sm:text-sm text-slate-300/90 mt-2 leading-relaxed">Matches purchase ledgers against government GSTR-2B filings automatically.</p>
+            </div>
+            <div class="pt-3 border-t border-white/10 flex justify-between text-xs"><span class="text-slate-400">ITC Protected</span><span class="font-bold text-emerald-300">₹3,42,900 Saved</span></div>
+          </div>
+
+          <div class="coverflow-item liquid-glass glass-glare p-6 flex flex-col justify-between" data-index="2">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/35">03 · INSTANT PAYOUTS</span>
+              <span class="text-xs font-bold text-amber-300">24×7 IMPS / UPI</span>
+            </div>
+            <div class="my-4">
+              <div class="keep-white w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-rose-500 flex items-center justify-center text-white font-black text-xl mb-4">₹</div>
+              <h3 class="text-xl font-extrabold text-white">Instant UPI &amp; NEFT Payouts</h3>
+              <p class="text-xs sm:text-sm text-slate-300/90 mt-2 leading-relaxed">Approve vendor bills in bulk with automatic TDS deduction and UTR sync.</p>
+            </div>
+            <div class="pt-3 border-t border-white/10 flex justify-between text-xs"><span class="text-slate-400">Settlement Speed</span><span class="font-bold text-orange-300">1.8 Seconds Avg</span></div>
+          </div>
+
+          <div class="coverflow-item liquid-glass glass-glare p-6 flex flex-col justify-between" data-index="3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-500/20 text-rose-300 border border-rose-400/35">04 · PREDICTIVE AI</span>
+              <span class="text-xs font-bold text-orange-300">90-Day Forecast</span>
+            </div>
+            <div class="my-4">
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-300 to-orange-500 flex items-center justify-center text-obsidian font-black text-lg mb-4">3D</div>
+              <h3 class="text-xl font-extrabold text-white">Smart TDS &amp; Cashflow Radar</h3>
+              <p class="text-xs sm:text-sm text-slate-300/90 mt-2 leading-relaxed">Projects upcoming GST challans and working capital burn in 3D.</p>
+            </div>
+            <div class="pt-3 border-t border-white/10 flex justify-between text-xs"><span class="text-slate-400">Net Runway</span><span class="font-bold text-amber-300">14.2 Months</span></div>
+          </div>
+
+          <div class="coverflow-item liquid-glass glass-glare p-6 flex flex-col justify-between" data-index="4">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-orange-500/20 text-orange-200 border border-orange-400/35">05 · AUDIT READY</span>
+              <span class="text-xs font-bold text-emerald-300">ISO 27001 Vault</span>
+            </div>
+            <div class="my-4">
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-obsidian font-black text-lg mb-4">CA</div>
+              <h3 class="text-xl font-extrabold text-white">One-Click CA Audit Vault</h3>
+              <p class="text-xs sm:text-sm text-slate-300/90 mt-2 leading-relaxed">Zero-trust role access to Trial Balance, Tally XML sync, and E-Way Bills.</p>
+            </div>
+            <div class="pt-3 border-t border-white/10 flex justify-between text-xs"><span class="text-slate-400">Tally &amp; Zoho Sync</span><span class="font-bold text-emerald-300">Real-Time</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center gap-4 mt-4">
+        <button id="cfPrevBtn" type="button" class="liquid-glass-pill w-10 h-10 rounded-full flex items-center justify-center text-white cursor-pointer">←</button>
+        <div id="cfDots" class="flex items-center gap-2"></div>
+        <button id="cfNextBtn" type="button" class="liquid-glass-pill w-10 h-10 rounded-full flex items-center justify-center text-white cursor-pointer">→</button>
+        <button id="cfOrbitBtn" type="button" class="liquid-glass-pill px-3.5 py-2 rounded-full text-xs font-semibold text-orange-300 cursor-pointer">Auto-Orbit: On</button>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         3D FLIP-CARD BENTO FEATURES
+    ========================================================== -->
+    <section id="features" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center max-w-2xl mx-auto mb-12 reveal-up">
+        <span class="inline-block px-3.5 py-1 rounded-full text-xs font-semibold text-orange-300 bg-orange-500/10 border border-orange-400/25 mb-3">Interactive 3D Flip-Cards</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Built for Speed, Precision &amp; Zero Tax Stress</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bento-flip-wrap reveal-up">
+          <div class="bento-card" data-flipped="false" role="button" tabindex="0">
+            <div class="bento-face bento-front liquid-glass glass-glare p-6 flex flex-col justify-between">
+              <div class="bento-pop">
+                <div class="flex items-center justify-between mb-4"><span class="px-3 py-1.5 rounded-xl bg-orange-500/20 border border-orange-400/35 text-xs font-extrabold text-orange-300">GSTR-1/3B</span><span class="text-[10px] text-slate-400">↻ 3D Flip</span></div>
+                <h3 class="text-lg font-bold text-white">Automated GST Filing</h3>
+                <p class="text-sm text-slate-300/85 mt-2">One-click GSTR-1, GSTR-3B &amp; GSTR-9 preparation with automatic HSN validation.</p>
+              </div>
+              <div class="bento-pop pt-3 border-t border-white/10 flex justify-between text-xs text-orange-300"><span>Auto-JSON Export</span><span>99.9% Error-Free →</span></div>
+            </div>
+            <div class="bento-face bento-back liquid-glass p-6 flex flex-col justify-between">
+              <div class="bento-pop"><span class="text-xs font-bold text-orange-300">LIVE GSTN TELEMETRY</span><div class="text-2xl font-black text-white mt-2">14.2 Sec Avg Filing</div><p class="text-xs text-slate-300 mt-2">100% B2B/B2C Auto-Map &amp; 6-digit HSN compliance checks active.</p></div>
+              <div class="bento-pop text-xs text-emerald-300 font-semibold border-t border-white/10 pt-3">✓ Zero Late Fee Alerts Active</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bento-flip-wrap reveal-up">
+          <div class="bento-card" data-flipped="false" role="button" tabindex="0">
+            <div class="bento-face bento-front liquid-glass glass-glare p-6 flex flex-col justify-between">
+              <div class="bento-pop">
+                <div class="flex items-center justify-between mb-4"><span class="px-3 py-1.5 rounded-xl bg-amber-500/20 border border-amber-400/35 text-xs font-extrabold text-amber-300">₹ IRN + QR</span><span class="text-[10px] text-slate-400">↻ 3D Flip</span></div>
+                <h3 class="text-lg font-bold text-white">Instant ₹ E-Invoicing</h3>
+                <p class="text-sm text-slate-300/85 mt-2">Generate signed IRN &amp; dynamic QR codes in under 400ms with E-Way Bill automation.</p>
+              </div>
+              <div class="bento-pop pt-3 border-t border-white/10 flex justify-between text-xs text-amber-300"><span>NIC IRP Direct API</span><span>&lt; 0.4s Latency →</span></div>
+            </div>
+            <div class="bento-face bento-back liquid-glass p-6 flex flex-col justify-between">
+              <div class="bento-pop"><span class="text-xs font-bold text-amber-300">IRP THROUGHPUT</span><div class="text-2xl font-black text-white mt-2">380ms IRN + QR</div><p class="text-xs text-slate-300 mt-2">Simultaneous E-Way Bill Part-A &amp; Part-B generation with Vahan API verification.</p></div>
+              <div class="bento-pop text-xs text-amber-300 font-semibold border-t border-white/10 pt-3">✓ 64-Char Cryptographic Hash Signed</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bento-flip-wrap reveal-up">
+          <div class="bento-card" data-flipped="false" role="button" tabindex="0">
+            <div class="bento-face bento-front liquid-glass glass-glare p-6 flex flex-col justify-between">
+              <div class="bento-pop">
+                <div class="flex items-center justify-between mb-4"><span class="px-3 py-1.5 rounded-xl bg-emerald-500/20 border border-emerald-400/35 text-xs font-extrabold text-emerald-300">ITC 2B</span><span class="text-[10px] text-slate-400">↻ 3D Flip</span></div>
+                <h3 class="text-lg font-bold text-white">Smart ITC Reconciliation</h3>
+                <p class="text-sm text-slate-300/85 mt-2">AI fuzzy-matching compares purchase registers against GSTR-2B in real time.</p>
+              </div>
+              <div class="bento-pop pt-3 border-t border-white/10 flex justify-between text-xs text-emerald-300"><span>Max Input Credit</span><span>Auto Vendor Nudges →</span></div>
+            </div>
+            <div class="bento-face bento-back liquid-glass p-6 flex flex-col justify-between">
+              <div class="bento-pop"><span class="text-xs font-bold text-emerald-300">ITC RECOVERY</span><div class="text-2xl font-black text-white mt-2">+₹1.85L / Yr Saved</div><p class="text-xs text-slate-300 mt-2">WhatsApp Bot auto-reminds suppliers 5 days before GSTR-1 due date.</p></div>
+              <div class="bento-pop text-xs text-emerald-300 font-semibold border-t border-white/10 pt-3">✓ Rule 36(4) &amp; Section 16(2) Compliant</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         INTERACTIVE 3D LEDGER CUBE SHOWCASE
+    ========================================================== -->
+    <section id="categories" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="liquid-glass rounded-[34px] p-7 sm:p-12 reveal-up">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div class="lg:col-span-6 space-y-6">
+            <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold text-amber-300 bg-amber-500/10 border border-amber-400/25">Interactive 3D Ledger Cube</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">6 Core Ledger Streams in One Spatial Cube</h2>
+            <p class="text-sm sm:text-base text-slate-300/90">Drag the 3D frosted glass cube directly or tap any category pill below to snap-rotate the cube.</p>
+
+            <div id="categoryPills" class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+              <button type="button" data-face="front" class="cat-pill active text-left p-3.5 rounded-2xl bg-orange-500/20 border border-orange-400/60 transition-all cursor-pointer">
+                <div class="text-xs font-bold text-white">Cloud &amp; SaaS</div>
+                <div class="text-sm font-extrabold text-orange-300 mt-1">₹1,24,500</div>
+              </button>
+              <button type="button" data-face="back" class="cat-pill text-left p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/15 transition-all cursor-pointer">
+                <div class="text-xs font-bold text-white">Office &amp; Rent</div>
+                <div class="text-sm font-extrabold text-slate-300 mt-1">₹2,80,000</div>
+              </button>
+              <button type="button" data-face="right" class="cat-pill text-left p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/15 transition-all cursor-pointer">
+                <div class="text-xs font-bold text-white">Marketing</div>
+                <div class="text-sm font-extrabold text-slate-300 mt-1">₹95,400</div>
+              </button>
+              <button type="button" data-face="left" class="cat-pill text-left p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/15 transition-all cursor-pointer">
+                <div class="text-xs font-bold text-white">Client Fee</div>
+                <div class="text-sm font-extrabold text-emerald-300 mt-1">₹12,40,000</div>
+              </button>
+              <button type="button" data-face="top" class="cat-pill text-left p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/15 transition-all cursor-pointer">
+                <div class="text-xs font-bold text-white">Vendor Pay</div>
+                <div class="text-sm font-extrabold text-slate-300 mt-1">₹4,15,000</div>
+              </button>
+              <button type="button" data-face="bottom" class="cat-pill text-left p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/15 transition-all cursor-pointer">
+                <div class="text-xs font-bold text-white">Payroll</div>
+                <div class="text-sm font-extrabold text-slate-300 mt-1">₹6,50,000</div>
+              </button>
+            </div>
+            <button id="resumeCubeSpinBtn" type="button" class="text-xs text-orange-300 hover:text-orange-200 underline underline-offset-4 cursor-pointer">Auto-Spin Active</button>
+          </div>
+
+          <div class="lg:col-span-6 flex flex-col items-center justify-center py-10">
+            <div class="cube-scene relative flex items-center justify-center">
+              <div class="absolute inset-4 rounded-full bg-gradient-to-tr from-orange-500/35 to-amber-400/25 blur-3xl pointer-events-none"></div>
+              <div id="categoryCube" class="cube-3d">
+                <div class="cube-face face-front active-face" data-face="front">
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-orange-500/25 text-orange-200 w-fit">01 · CLOUD &amp; SAAS</span>
+                  <div><div class="text-sm text-slate-300">Cloud &amp; SaaS</div><div class="text-3xl font-extrabold text-white mt-1">₹1,24,500</div></div>
+                  <div class="text-xs text-emerald-300 border-t border-white/15 pt-3">18% ITC Eligible · Auto-Tagged</div>
+                </div>
+                <div class="cube-face face-back" data-face="back">
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/25 text-amber-200 w-fit">02 · OFFICE &amp; RENT</span>
+                  <div><div class="text-sm text-slate-300">Office &amp; Rent</div><div class="text-3xl font-extrabold text-white mt-1">₹2,80,000</div></div>
+                  <div class="text-xs text-amber-300 border-t border-white/15 pt-3">TDS 194I Deducted</div>
+                </div>
+                <div class="cube-face face-right" data-face="right">
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-500/25 text-rose-200 w-fit">03 · MARKETING</span>
+                  <div><div class="text-sm text-slate-300">Marketing</div><div class="text-3xl font-extrabold text-white mt-1">₹95,400</div></div>
+                  <div class="text-xs text-emerald-300 border-t border-white/15 pt-3">ROAS 4.6x · 18% ITC</div>
+                </div>
+                <div class="cube-face face-left" data-face="left">
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/25 text-emerald-200 w-fit">04 · CLIENT FEE</span>
+                  <div><div class="text-sm text-slate-300">Client Fee</div><div class="text-3xl font-extrabold text-emerald-300 mt-1">₹12,40,000</div></div>
+                  <div class="text-xs text-emerald-300 border-t border-white/15 pt-3">24 Paid Invoices</div>
+                </div>
+                <div class="cube-face face-top" data-face="top">
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-orange-500/25 text-orange-200 w-fit">05 · VENDOR PAY</span>
+                  <div><div class="text-sm text-slate-300">Vendor Pay</div><div class="text-3xl font-extrabold text-white mt-1">₹4,15,000</div></div>
+                  <div class="text-xs text-orange-300 border-t border-white/15 pt-3">18 Suppliers · 2B Verified</div>
+                </div>
+                <div class="cube-face face-bottom" data-face="bottom">
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/25 text-amber-200 w-fit">06 · PAYROLL</span>
+                  <div><div class="text-sm text-slate-300">Payroll</div><div class="text-3xl font-extrabold text-white mt-1">₹6,50,000</div></div>
+                  <div class="text-xs text-amber-300 border-t border-white/15 pt-3">28 Team Members · PF/TDS</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         INTERACTIVE 3D GST CALCULATOR & LAYERED SLAB VISUALIZER
+    ========================================================== -->
+    <section id="gst-engine" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="liquid-glass rounded-[34px] p-6 sm:p-10 reveal-up">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div class="lg:col-span-7 space-y-6">
+            <div>
+              <span class="inline-block px-3.5 py-1 rounded-full text-xs font-semibold text-orange-300 bg-orange-500/10 border border-orange-400/25 mb-2">Live 3D Tax Engine</span>
+              <h2 class="text-3xl font-extrabold text-white">Interactive 3D GST Slab Calculator</h2>
+            </div>
+
+            <div>
+              <label for="gstAmountInput" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Taxable Invoice Amount (₹ INR)</label>
+              <div class="relative flex items-center">
+                <span class="absolute left-4 text-xl font-bold text-orange-400">₹</span>
+                <input id="gstAmountInput" type="number" min="0" step="500" value="125000" class="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-white/[0.06] border border-white/20 text-xl font-extrabold text-white" />
+              </div>
+              <div class="flex flex-wrap gap-2 mt-3">
+                <button type="button" data-amount="10000" class="preset-amt px-3 py-1.5 rounded-full text-xs font-semibold bg-white/[0.05] border border-white/15 text-slate-300 cursor-pointer">₹10,000</button>
+                <button type="button" data-amount="50000" class="preset-amt px-3 py-1.5 rounded-full text-xs font-semibold bg-white/[0.05] border border-white/15 text-slate-300 cursor-pointer">₹50,000</button>
+                <button type="button" data-amount="125000" class="preset-amt px-3 py-1.5 rounded-full text-xs font-semibold bg-orange-500/20 border border-orange-400/50 text-orange-200 cursor-pointer">₹1,25,000</button>
+                <button type="button" data-amount="500000" class="preset-amt px-3 py-1.5 rounded-full text-xs font-semibold bg-white/[0.05] border border-white/15 text-slate-300 cursor-pointer">₹5,00,000</button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <span class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">GST Rate Slab</span>
+                <div class="grid grid-cols-4 gap-2">
+                  <button type="button" data-rate="5" class="slab-btn py-2.5 rounded-xl text-xs font-bold bg-white/[0.05] border border-white/15 text-slate-300 cursor-pointer">5%</button>
+                  <button type="button" data-rate="12" class="slab-btn py-2.5 rounded-xl text-xs font-bold bg-white/[0.05] border border-white/15 text-slate-300 cursor-pointer">12%</button>
+                  <button type="button" data-rate="18" class="slab-btn keep-white py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-orange-500 to-amber-500 border border-white/30 text-white cursor-pointer">18%</button>
+                  <button type="button" data-rate="28" class="slab-btn py-2.5 rounded-xl text-xs font-bold bg-white/[0.05] border border-white/15 text-slate-300 cursor-pointer">28%</button>
+                </div>
+              </div>
+              <div>
+                <span class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Supply Mode</span>
+                <div class="grid grid-cols-2 gap-2 p-1 rounded-xl bg-white/[0.05] border border-white/15">
+                  <button type="button" id="modeIntra" class="py-2 px-2 rounded-lg text-xs font-bold bg-white/15 text-white border border-white/20 cursor-pointer">Intra-State</button>
+                  <button type="button" id="modeInter" class="py-2 px-2 rounded-lg text-xs font-bold text-slate-400 cursor-pointer">Inter-State (IGST)</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+              <div class="rounded-2xl bg-white/[0.04] border border-white/10 p-3.5">
+                <div class="text-[11px] text-slate-400">Base Value</div>
+                <div id="outBase" class="text-sm sm:text-base font-bold text-white mt-1">₹1,25,000</div>
+              </div>
+              <div id="boxTax1" class="rounded-2xl bg-orange-500/10 border border-orange-400/25 p-3.5">
+                <div id="lblTax1" class="text-[11px] text-orange-300">CGST (9%)</div>
+                <div id="outTax1" class="text-sm sm:text-base font-bold text-orange-200 mt-1">₹11,250</div>
+              </div>
+              <div id="boxTax2" class="rounded-2xl bg-amber-500/10 border border-amber-400/25 p-3.5">
+                <div id="lblTax2" class="text-[11px] text-amber-300">SGST (9%)</div>
+                <div id="outTax2" class="text-sm sm:text-base font-bold text-amber-200 mt-1">₹11,250</div>
+              </div>
+              <div class="rounded-2xl bg-gradient-to-br from-orange-500/25 to-amber-500/20 border border-orange-300/40 p-3.5">
+                <div class="text-[11px] text-white/80 font-medium">Total Invoice</div>
+                <div id="outTotal" class="text-sm sm:text-base font-extrabold text-white mt-1">₹1,47,500</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 flex flex-col items-center justify-center py-8">
+            <div class="slab-stage relative w-full h-[320px] flex items-center justify-center">
+              <div class="slab-stack relative flex items-center justify-center">
+                <div id="slabBase" class="gst-slab absolute border border-white/25 bg-white/[0.07] p-4 flex flex-col justify-between" style="transform: translateZ(0px);">
+                  <span class="text-[10px] font-bold uppercase text-slate-300">Base Value Layer</span>
+                  <div id="slabBaseVal" class="text-lg font-extrabold text-white">₹1,25,000</div>
+                </div>
+                <div id="slabTax1" class="gst-slab absolute border border-orange-400/45 bg-orange-500/20 p-4 flex flex-col justify-between" style="transform: translateZ(46px);">
+                  <span id="slabTax1Lbl" class="text-[10px] font-bold uppercase text-orange-200">CGST (9%)</span>
+                  <div id="slabTax1Val" class="text-lg font-extrabold text-orange-100">+₹11,250</div>
+                </div>
+                <div id="slabTax2" class="gst-slab absolute border border-amber-400/45 bg-amber-500/20 p-4 flex flex-col justify-between" style="transform: translateZ(92px);">
+                  <span id="slabTax2Lbl" class="text-[10px] font-bold uppercase text-amber-200">SGST (9%)</span>
+                  <div id="slabTax2Val" class="text-lg font-extrabold text-amber-100">+₹11,250</div>
+                </div>
+                <div id="slabTotal" class="gst-slab absolute border border-white/50 bg-gradient-to-br from-orange-500/35 via-amber-500/25 to-white/15 p-4 flex flex-col justify-between" style="transform: translateZ(138px);">
+                  <div class="flex justify-between items-center">
+                    <span class="text-[10px] font-extrabold uppercase text-white">Total Prism</span>
+                    <span id="slabRateTag" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-black/40 text-amber-200">18% GST</span>
+                  </div>
+                  <div id="slabTotalVal" class="text-xl font-black text-white">₹1,47,500</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         MARKET INTELLIGENCE STUDIO (2017-2026)
+    ========================================================== -->
+    <section id="market-intel" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="liquid-glass glass-glare rounded-[34px] p-6 sm:p-10 reveal-up">
+        <div class="mb-6">
+          <span class="inline-block px-3.5 py-1 rounded-full text-xs font-semibold text-orange-300 bg-orange-500/10 border border-orange-400/25 mb-2">Market Intelligence Studio</span>
+          <h2 class="text-3xl font-extrabold text-white">10-Year Sector &amp; Company Growth Explorer (2017–2026)</h2>
+        </div>
+
+        <form id="miForm" class="space-y-4 mb-6" autocomplete="off">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <input id="miProject" type="text" placeholder="Project Name (e.g. Q4 Board Review)" class="w-full px-4 py-3 rounded-2xl bg-white/[0.06] border border-white/20 text-sm text-white" />
+            <input id="miTopic" type="text" placeholder="Subject / Topic (e.g. IT Exports)" class="w-full px-4 py-3 rounded-2xl bg-white/[0.06] border border-white/20 text-sm text-white" />
+            <div class="flex gap-2">
+              <input id="miSearch" type="search" list="miList" placeholder="Search Sector or Company..." class="flex-1 px-4 py-3 rounded-2xl bg-white/[0.06] border border-orange-400/40 text-sm text-white" />
+              <datalist id="miList"></datalist>
+              <button type="submit" class="keep-white px-5 py-3 rounded-2xl font-bold text-xs text-white bg-gradient-to-r from-orange-500 to-amber-500 cursor-pointer">Analyse</button>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-3 items-center">
+            <div id="miModeSeg" class="flex gap-1 p-1 rounded-xl bg-white/[0.05] border border-white/15">
+              <button type="button" data-value="single" class="mi-seg-btn is-active">Single</button>
+              <button type="button" data-value="multi" class="mi-seg-btn">Multiple</button>
+            </div>
+            <div id="miMetricSeg" class="flex gap-1 p-1 rounded-xl bg-white/[0.05] border border-white/15">
+              <button type="button" data-value="sales" class="mi-seg-btn is-active">Sales</button>
+              <button type="button" data-value="val" class="mi-seg-btn">Valuation</button>
+            </div>
+            <div id="miScaleSeg" class="flex gap-1 p-1 rounded-xl bg-white/[0.05] border border-white/15">
+              <button type="button" data-value="abs" class="mi-seg-btn is-active">Absolute ₹</button>
+              <button type="button" data-value="idx" class="mi-seg-btn">Indexed</button>
+            </div>
+            <button type="button" id="miResetView" class="mi-seg-btn border-white/15 bg-white/[0.05]">Reset 3D View</button>
+          </div>
+
+          <div id="miTray" class="flex flex-wrap gap-2"></div>
+          <div id="miQuick" class="flex flex-wrap gap-2"></div>
+        </form>
+
+        <div id="miResults" class="space-y-6">
+          <div class="flex flex-wrap justify-between items-center gap-2">
+            <div>
+              <div id="miHeadProject" class="text-lg font-extrabold text-white"></div>
+              <div id="miHeadTopic" class="text-xs text-slate-400"></div>
+            </div>
+            <div class="flex gap-2">
+              <span id="miHeadMode" class="px-3 py-1 rounded-full text-[11px] font-bold bg-orange-500/20 text-orange-200"></span>
+              <span id="miHeadQuality" class="px-3 py-1 rounded-full text-[11px] font-bold bg-white/[0.06] text-slate-300"></span>
+            </div>
+          </div>
+          <div id="miKpis" class="grid grid-cols-2 lg:grid-cols-4 gap-4"></div>
+          <div class="rounded-2xl bg-black/25 border border-white/10 p-4">
+            <div id="miChartTitle" class="text-sm font-bold text-white mb-3"></div>
+            <canvas id="miCanvas" class="w-full h-[320px] block"></canvas>
+          </div>
+          <div id="miTableWrap" class="overflow-x-auto"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         4. TRUST & SUPPORT SECTION
+    ========================================================== -->
+    <section id="trust-support" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center max-w-2xl mx-auto mb-12 reveal-up">
+        <span class="inline-block px-3.5 py-1 rounded-full text-xs font-semibold text-emerald-300 bg-emerald-500/10 border border-emerald-400/25 mb-3">Trust, Security &amp; 24×7 Support</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Bank-Grade Security &amp; Dedicated CA Support</h2>
+      </div>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10 reveal-up">
+        <div class="liquid-glass rounded-2xl p-5 text-center">
+          <div class="text-2xl mb-1">🛡️</div>
+          <div class="text-sm font-extrabold text-white">ISO 27001 Certified</div>
+          <div class="text-xs text-slate-400 mt-1">Zero-Trust Cloud Vault</div>
+        </div>
+        <div class="liquid-glass rounded-2xl p-5 text-center">
+          <div class="text-2xl mb-1">🏛️</div>
+          <div class="text-sm font-extrabold text-white">GSTN &amp; NIC IRP</div>
+          <div class="text-xs text-slate-400 mt-1">Authorized GSP Gateway</div>
+        </div>
+        <div class="liquid-glass rounded-2xl p-5 text-center">
+          <div class="text-2xl mb-1">🔐</div>
+          <div class="text-sm font-extrabold text-white">AES-256 Encryption</div>
+          <div class="text-xs text-slate-400 mt-1">End-to-End Ledger Lock</div>
+        </div>
+        <div class="liquid-glass rounded-2xl p-5 text-center">
+          <div class="text-2xl mb-1">🏦</div>
+          <div class="text-sm font-extrabold text-white">RBI AA Framework</div>
+          <div class="text-xs text-slate-400 mt-1">Consent-Based Bank Feeds</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 reveal-up">
+        <div class="lg:col-span-6 space-y-4">
+          <div class="liquid-glass rounded-3xl p-6 space-y-3">
+            <h3 class="text-lg font-extrabold text-white">Frequently Asked Questions</h3>
+            <details class="rounded-2xl bg-white/[0.04] border border-white/10 p-3.5" open>
+              <summary class="text-xs sm:text-sm font-bold text-white cursor-pointer">Does BizBuddy sync directly with GSTR-1, GSTR-2B &amp; E-Way Bill?</summary>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">Yes! BizBuddy connects directly to GSTN and NIC IRP APIs for instant IRN generation, QR codes, and automated GSTR-2B ITC reconciliation.</p>
+            </details>
+            <details class="rounded-2xl bg-white/[0.04] border border-white/10 p-3.5">
+              <summary class="text-xs sm:text-sm font-bold text-white cursor-pointer">Can I export Tally XML and share access with my Chartered Accountant?</summary>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">Yes, 1-click Tally XML/JSON export and dedicated CA Audit Vault access are built into every plan.</p>
+            </details>
+            <details class="rounded-2xl bg-white/[0.04] border border-white/10 p-3.5">
+              <summary class="text-xs sm:text-sm font-bold text-white cursor-pointer">How does BizBuddy AI protect my financial data?</summary>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">All queries are processed over TLS 1.3 with AES-256 encrypted storage in Mumbai (ap-south-1) data centers.</p>
+            </details>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6">
+          <div class="liquid-glass rounded-3xl p-6 sm:p-8">
+            <h3 class="text-lg font-extrabold text-white">24×7 Priority GST &amp; Technical Desk</h3>
+            <p class="text-xs text-slate-400 mt-1 mb-4">Average response time under 4 minutes · GST Helpline: 1800-103-4786</p>
+            <form id="supportForm" class="space-y-3.5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <input id="supName" type="text" required placeholder="Your Name" class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-xs sm:text-sm text-white" />
+                <select id="supTopic" class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-xs sm:text-sm text-white">
+                  <option value="GST Filing & Reconciliation">GST Filing &amp; Reconciliation</option>
+                  <option value="E-Invoice / IRN Setup">E-Invoice / IRN Setup</option>
+                  <option value="Billing & Enterprise Plan">Billing &amp; Enterprise Plan</option>
+                </select>
+              </div>
+              <textarea id="supMsg" rows="3" required placeholder="Describe your query..." class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-xs sm:text-sm text-white"></textarea>
+              <button type="submit" class="keep-white w-full py-3 rounded-2xl font-bold text-xs sm:text-sm text-white bg-gradient-to-r from-orange-500 to-amber-500 shadow-[0_10px_24px_rgba(249,115,22,0.45)] cursor-pointer">
+                Submit Priority Support Ticket
+              </button>
+              <div id="supportFeedback" class="hidden rounded-xl bg-emerald-500/15 border border-emerald-400/40 p-3 text-xs text-emerald-200"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         PRICING & TRIAL CTA SECTION
+    ========================================================== -->
+    <section id="cta" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12">
+      <div class="liquid-glass glass-glare rounded-[36px] p-8 sm:p-12 reveal-up">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-5 flex flex-col items-center justify-center">
+            <div class="coin-stage relative flex items-center justify-center">
+              <div class="coin-3d">
+                <div class="coin-layer bg-gradient-to-br from-amber-200 via-orange-500 to-amber-600 border-2 border-amber-100/90 shadow-[0_0_45px_rgba(249,115,22,0.7)]" style="transform: translateZ(10px);">
+                  <div class="w-[132px] h-[132px] rounded-full border border-white/50 bg-black/15 flex flex-col items-center justify-center">
+                    <span class="keep-white text-5xl font-black text-white">₹</span>
+                    <span class="font-display text-[9px] font-extrabold tracking-[0.18em] uppercase text-amber-100 mt-1">BIZBUDDY PRO</span>
+                  </div>
+                </div>
+                <div class="coin-layer bg-gradient-to-br from-orange-500 via-amber-400 to-orange-600 border-2 border-amber-100/90" style="transform: translateZ(-10px) rotateY(180deg);">
+                  <div class="w-[132px] h-[132px] rounded-full border border-white/50 bg-black/15 flex flex-col items-center justify-center">
+                    <span class="keep-white text-3xl font-black text-white">GST</span>
+                    <span class="text-[9px] font-bold tracking-[0.18em] uppercase text-amber-100 mt-1">100% SYNCED</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 text-center lg:text-left space-y-5">
+            <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold text-orange-200 bg-white/[0.07] border border-white/15">14-Day Free Pro Trial · No Credit Card Needed</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Upgrade Your Business to Spatial Finance Today.</h2>
+            <p class="text-slate-300 text-sm sm:text-base">
+              Start free with unlimited ₹ GST invoices, automated GSTR-2B reconciliation, and BizBuddy AI. Plans start at just <span class="text-white font-bold">₹499/month or $5.32</span> after trial.
+            </p>
+            <form id="trialForm" class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto lg:mx-0">
+              <input id="trialEmail" type="email" required placeholder="Enter work email or GSTIN..." class="flex-1 px-4 py-3.5 rounded-2xl bg-white/[0.07] border border-white/20 text-sm text-white" />
+              <button type="submit" class="keep-white px-6 py-3.5 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-orange-500 to-amber-500 cursor-pointer">Get Instant Access</button>
+            </form>
+            <div id="trialFeedback" class="hidden max-w-lg mx-auto lg:mx-0 rounded-2xl bg-emerald-500/15 border border-emerald-400/40 px-4 py-3 text-xs text-emerald-200"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       5. FULL 12-MODULE INTERACTIVE COMMAND DASHBOARD VIEW
+  ========================================================== -->
+  <section id="dashboardView" class="hidden relative z-10 pt-24 pb-16 px-4 sm:px-6 max-w-7xl mx-auto">
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-wider text-orange-300">BizBuddy Spatial Command OS</span>
+        <h1 id="dashHeaderBizName" class="text-2xl sm:text-3xl font-extrabold text-white">Apex Tech Solutions Pvt. Ltd.</h1>
+      </div>
+      <button type="button" id="backToLandingBtn" class="px-4 py-2 rounded-full text-xs font-bold bg-white/[0.07] hover:bg-white/[0.15] border border-white/15 text-white cursor-pointer">
+        ← Back to Website Home
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- 12-Module Sidebar -->
+      <aside class="lg:col-span-3 liquid-glass rounded-[28px] p-4 space-y-1.5 h-fit">
+        <button type="button" data-tab="profile" class="dash-nav-item w-full text-left px-3.5 py-2.5 rounded-xl border border-transparent text-xs font-bold text-slate-300 hover:bg-white/[0.06] cursor-pointer">1. 👤 Profile</button>
+        <button type="button" data-tab="overview" class="dash-nav-item active w-full text-left px-3.5 py-2.5 rounded-xl border border-transparent text-xs font-bold text-slate-300 hover:bg-white/[0.06] cursor-pointer">2. 📊 Overview</button>
+        <button type="button" data-tab="financial" class="dash-nav-item w-full text-left px-3.5 py-2.5 rounded-xl border border-transparent text-xs font-bold text-slate-300 hover:bg-white/[0.06] cursor-pointer">3. 💰 Financial Management</button>
+        <button type="button" data-tab="invoices" class="dash-nav-item w-full text-left px-3.5 py-2.5 rounded-xl border border-transparent text-xs font-bold text-slate-300 hover:bg-white/[0.06] cursor-pointer">4. 🧾 Invoices</button>
+        <button type="button" data-tab="transactions" class="dash-nav-item w-full text-left px-3.5 py-2.5 rounded-xl border border-transparent text-xs font-bold text-slate-300 hover:bg-white/[0.06] cursor-pointer">5. 🔄 Transactions</button>
+        <button type="button" data-tab="analytics" class="dash-nav-item w-full text-left px-3.5 py-2.5 rounded-xl border border-transparent text-xs font-bold text-slate-300 hover:bg-white/[0.06] cursor-pointer">6. 📈 Analytics &amp; Record</button>
+        <button type="button" data-tab="inventory" class="dash-nav-item w-full text-left px-3.5 py-2.5 rounded-xl border border-transparent text-xs font-bold text-slate-300 hover:bg-white/[0.06] cursor-pointer">7. 📦 Inventory</button>
+        <button type="button" data-tab="customers" class="dash-nav-item w-full text-left px-3.5 py-2.5 rounded-xl border border-transparent text-xs font-bold text-slate-300 hover:bg-white/[0.06] cursor-pointer">8. 🤝 Customers &amp; Dues</button>
+        <button type="button" data-tab="gst" class="dash-nav-item w-full text-left px-3.5 py-2.5 rounded-xl border border-transparent text-xs font-bold text-slate-300 hover:bg-white/[0.06] cursor-pointer">9. 🏛️ GST Management</button>
+        <button type="button" data-tab="ai" class="dash-nav-item w-full text-left px-3.5 py-2.5 rounded-xl border border-transparent text-xs font-bold text-slate-300 hover:bg-white/[0.06] cursor-pointer">10. ✨ BizBuddy AI</button>
+        <button type="button" data-tab="settings" class="dash-nav-item w-full text-left px-3.5 py-2.5 rounded-xl border border-transparent text-xs font-bold text-slate-300 hover:bg-white/[0.06] cursor-pointer">11. ⚙️ Settings</button>
+        <button type="button" id="dashSidebarThemeBtn" class="w-full text-left px-3.5 py-2.5 rounded-xl border border-orange-400/30 bg-orange-500/10 text-xs font-bold text-orange-300 cursor-pointer">12. 🌓 Toggle Light / Dark</button>
+      </aside>
+
+      <!-- Module Panels -->
+      <div class="lg:col-span-9 space-y-6">
+        <!-- 1. Profile -->
+        <div id="panel-profile" class="dash-panel hidden liquid-glass rounded-[28px] p-6 sm:p-8 space-y-4">
+          <h2 class="text-xl font-extrabold text-white">1. Owner &amp; Business Profile</h2>
+          <form id="profileSaveForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div><label class="block text-xs text-slate-400 mb-1">Owner Name</label><input id="profOwnerInput" type="text" value="Aarav Sharma" class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-sm text-white" /></div>
+            <div><label class="block text-xs text-slate-400 mb-1">Business Name</label><input id="profBizInput" type="text" value="Apex Tech Solutions Pvt. Ltd." class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-sm text-white" /></div>
+            <div><label class="block text-xs text-slate-400 mb-1">GSTIN</label><input id="profGstinInput" type="text" value="29AABCA8492K1Z5" class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-sm text-white uppercase" /></div>
+            <div><label class="block text-xs text-slate-400 mb-1">UPI ID / Bank</label><input id="profBankInput" type="text" value="apextech@icici" class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-sm text-white" /></div>
+            <div class="sm:col-span-2"><button type="submit" class="keep-white px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 cursor-pointer">Save Profile</button><span id="profSavedBadge" class="hidden ml-3 text-xs text-emerald-300 font-semibold">✓ Saved!</span></div>
+          </form>
+        </div>
+
+        <!-- 2. Overview -->
+        <div id="panel-overview" class="dash-panel liquid-glass rounded-[28px] p-6 sm:p-8 space-y-6">
+          <h2 class="text-xl font-extrabold text-white">2. Business Summary Overview</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div class="rounded-2xl bg-white/[0.05] border border-white/10 p-4"><div class="text-xs text-slate-400">Total Income</div><div id="ovIncome" class="text-xl font-extrabold text-emerald-300 mt-1">₹18,45,000</div></div>
+            <div class="rounded-2xl bg-white/[0.05] border border-white/10 p-4"><div class="text-xs text-slate-400">Total Expenses</div><div id="ovExpense" class="text-xl font-extrabold text-rose-300 mt-1">₹11,20,000</div></div>
+            <div class="rounded-2xl bg-white/[0.05] border border-white/10 p-4"><div class="text-xs text-slate-400">Net Profit</div><div id="ovProfit" class="text-xl font-extrabold text-white mt-1">₹7,25,000</div></div>
+            <div class="rounded-2xl bg-orange-500/15 border border-orange-400/35 p-4"><div class="text-xs text-orange-200">Health Score</div><div id="ovHealth" class="text-xl font-extrabold text-amber-300 mt-1">88 / 100</div></div>
+          </div>
+          <div class="rounded-2xl bg-white/[0.04] border border-white/10 p-4 text-xs text-slate-300 space-y-2">
+            <div class="font-bold text-white">Live Compliance &amp; Cashflow Highlights</div>
+            <div>• GSTR-2B Input Tax Credit matched: <strong class="text-emerald-300">₹2,14,800</strong></div>
+            <div>• Pending Customer Dues: <strong id="ovDuesText" class="text-amber-300">₹2,27,500</strong></div>
+          </div>
+        </div>
+
+        <!-- 3. Financial Management -->
+        <div id="panel-financial" class="dash-panel hidden liquid-glass rounded-[28px] p-6 sm:p-8 space-y-5">
+          <h2 class="text-xl font-extrabold text-white">3. Financial Management (Income &amp; Expenses)</h2>
+          <form id="addLedgerForm" class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+            <select id="ledType" class="px-3 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-xs text-white"><option value="income">Income (+)</option><option value="expense">Expense (-)</option></select>
+            <input id="ledTitle" type="text" required placeholder="Description (e.g. Cloud Hosting)" class="px-3 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-xs text-white" />
+            <input id="ledAmount" type="number" required min="1" placeholder="Amount ₹" class="px-3 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-xs text-white" />
+            <button type="submit" class="keep-white py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 cursor-pointer">+ Add Entry</button>
+          </form>
+          <div id="ledgerListWrap" class="space-y-2 text-xs"></div>
+        </div>
+
+        <!-- 4. Invoices -->
+        <div id="panel-invoices" class="dash-panel hidden liquid-glass rounded-[28px] p-6 sm:p-8 space-y-5">
+          <h2 class="text-xl font-extrabold text-white">4. Invoices (Create, Manage &amp; Download)</h2>
+          <form id="createInvoiceForm" class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+            <input id="invClient" type="text" required placeholder="Client Name" class="px-3 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-xs text-white" />
+            <input id="invAmount" type="number" required min="100" placeholder="Taxable Amount ₹" class="px-3 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-xs text-white" />
+            <select id="invGstRate" class="px-3 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-xs text-white"><option value="18">18% GST</option><option value="12">12% GST</option><option value="5">5% GST</option><option value="28">28% GST</option></select>
+            <button type="submit" class="keep-white py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 cursor-pointer">+ Generate Invoice</button>
+          </form>
+          <div id="invoiceListWrap" class="space-y-2.5 text-xs"></div>
+        </div>
+
+        <!-- 5. Transactions -->
+        <div id="panel-transactions" class="dash-panel hidden liquid-glass rounded-[28px] p-6 sm:p-8 space-y-4">
+          <div class="flex justify-between items-center"><h2 class="text-xl font-extrabold text-white">5. Transactions &amp; UTR Settlement Log</h2><button type="button" id="exportCsvBtn" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-white/10 text-orange-300 border border-orange-400/35 cursor-pointer">⬇ Export CSV</button></div>
+          <div id="txListWrap" class="space-y-2 text-xs"></div>
+        </div>
+
+        <!-- 6. Analytics -->
+        <div id="panel-analytics" class="dash-panel hidden liquid-glass rounded-[28px] p-6 sm:p-8 space-y-5">
+          <h2 class="text-xl font-extrabold text-white">6. Analytics &amp; Profit / Loss Growth</h2>
+          <div class="grid grid-cols-3 gap-4 text-center">
+            <div class="p-4 rounded-2xl bg-white/[0.05]"><div class="text-xs text-slate-400">YoY Revenue Growth</div><div class="text-2xl font-black text-emerald-300 mt-1">+34.8%</div></div>
+            <div class="p-4 rounded-2xl bg-white/[0.05]"><div class="text-xs text-slate-400">Operating Margin</div><div class="text-2xl font-black text-orange-300 mt-1">39.2%</div></div>
+            <div class="p-4 rounded-2xl bg-white/[0.05]"><div class="text-xs text-slate-400">Cash Runway</div><div class="text-2xl font-black text-amber-300 mt-1">14.2 Mos</div></div>
+          </div>
+          <div class="grid grid-cols-6 gap-3 items-end h-40 pt-6 px-4 rounded-2xl bg-white/[0.04]">
+            <div class="flex flex-col items-center gap-1"><div class="w-full bg-orange-500/60 rounded-t h-16"></div><span class="text-[10px] text-slate-400">May</span></div>
+            <div class="flex flex-col items-center gap-1"><div class="w-full bg-orange-500/70 rounded-t h-20"></div><span class="text-[10px] text-slate-400">Jun</span></div>
+            <div class="flex flex-col items-center gap-1"><div class="w-full bg-amber-400/75 rounded-t h-24"></div><span class="text-[10px] text-slate-400">Jul</span></div>
+            <div class="flex flex-col items-center gap-1"><div class="w-full bg-orange-400/85 rounded-t h-28"></div><span class="text-[10px] text-slate-400">Aug</span></div>
+            <div class="flex flex-col items-center gap-1"><div class="w-full bg-amber-400 rounded-t h-32"></div><span class="text-[10px] text-slate-400">Sep</span></div>
+            <div class="flex flex-col items-center gap-1"><div class="w-full bg-gradient-to-t from-orange-500 to-emerald-400 rounded-t h-36"></div><span class="text-[10px] text-white font-bold">Oct</span></div>
+          </div>
+        </div>
+
+        <!-- 7. Inventory -->
+        <div id="panel-inventory" class="dash-panel hidden liquid-glass rounded-[28px] p-6 sm:p-8 space-y-4">
+          <h2 class="text-xl font-extrabold text-white">7. Inventory &amp; SKU Stock Management</h2>
+          <form id="addSkuForm" class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+            <input id="skuName" type="text" required placeholder="Product / SKU Name" class="px-3 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-xs text-white" />
+            <input id="skuQty" type="number" required min="1" placeholder="Stock Qty" class="px-3 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-xs text-white" />
+            <input id="skuPrice" type="number" required min="1" placeholder="Unit Price ₹" class="px-3 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-xs text-white" />
+            <button type="submit" class="keep-white py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 cursor-pointer">+ Add SKU</button>
+          </form>
+          <div id="inventoryListWrap" class="space-y-2 text-xs"></div>
+        </div>
+
+        <!-- 8. Customers -->
+        <div id="panel-customers" class="dash-panel hidden liquid-glass rounded-[28px] p-6 sm:p-8 space-y-4">
+          <h2 class="text-xl font-extrabold text-white">8. Customers &amp; Pending Dues</h2>
+          <div id="customerListWrap" class="space-y-2.5 text-xs"></div>
+        </div>
+
+        <!-- 9. GST Management -->
+        <div id="panel-gst" class="dash-panel hidden liquid-glass rounded-[28px] p-6 sm:p-8 space-y-5">
+          <h2 class="text-xl font-extrabold text-white">9. GST Management &amp; Tax Summary</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="p-4 rounded-2xl bg-white/[0.05]"><div class="text-xs text-slate-400">Output Tax (GSTR-1)</div><div class="text-xl font-extrabold text-white mt-1">₹2,63,000</div></div>
+            <div class="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-400/30"><div class="text-xs text-emerald-300">Eligible ITC (GSTR-2B)</div><div class="text-xl font-extrabold text-emerald-300 mt-1">₹2,14,800</div></div>
+            <div class="p-4 rounded-2xl bg-orange-500/15 border border-orange-400/35"><div class="text-xs text-orange-200">Net GST Payable</div><div class="text-xl font-extrabold text-orange-300 mt-1">₹48,200</div></div>
+          </div>
+          <button type="button" id="fileGstr3bBtn" class="keep-white px-5 py-3 rounded-2xl text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 cursor-pointer">✓ File GSTR-3B Return Now</button>
+          <div id="gstr3bStatus" class="hidden text-xs text-emerald-300 font-semibold">✓ GSTR-3B Filed Successfully · ARN: AA291026849201Z</div>
+        </div>
+
+        <!-- 10. BizBuddy AI -->
+        <div id="panel-ai" class="dash-panel hidden liquid-glass rounded-[28px] p-6 sm:p-8 space-y-4">
+          <h2 class="text-xl font-extrabold text-white">10. BizBuddy AI CFO &amp; GST Copilot</h2>
+          <div id="dashAiMessages" class="h-64 overflow-y-auto space-y-2.5 p-3 rounded-2xl bg-white/[0.03] border border-white/10 text-xs">
+            <div class="p-3 rounded-2xl bg-white/[0.07] text-slate-200">Welcome to your dedicated BizBuddy AI workspace! Ask me anything about GST optimization, profit margins, or overdue invoices.</div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" class="dash-ai-prompt px-3 py-1.5 rounded-full text-xs bg-orange-500/15 border border-orange-400/35 text-orange-200 cursor-pointer">Optimize my GST liability</button>
+            <button type="button" class="dash-ai-prompt px-3 py-1.5 rounded-full text-xs bg-amber-500/15 border border-amber-400/35 text-amber-200 cursor-pointer">Analyze my Health Score</button>
+            <button type="button" class="dash-ai-prompt px-3 py-1.5 rounded-full text-xs bg-emerald-500/15 border border-emerald-400/35 text-emerald-200 cursor-pointer">Draft payment reminder for pending dues</button>
+          </div>
+          <form id="dashAiForm" class="flex gap-2">
+            <input id="dashAiInput" type="text" required placeholder="Ask BizBuddy AI..." class="flex-1 px-4 py-3 rounded-xl bg-white/[0.06] border border-white/20 text-xs text-white" />
+            <button type="submit" class="keep-white px-5 py-3 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 cursor-pointer">Send</button>
+          </form>
+        </div>
+
+        <!-- 11. Settings -->
+        <div id="panel-settings" class="dash-panel hidden liquid-glass rounded-[28px] p-6 sm:p-8 space-y-4">
+          <h2 class="text-xl font-extrabold text-white">11. Workspace &amp; Compliance Settings</h2>
+          <div class="space-y-3 text-xs">
+            <label class="flex items-center justify-between p-3.5 rounded-2xl bg-white/[0.05]"><span>Auto-Sync GSTR-2B Every 6 Hours</span><input type="checkbox" checked class="accent-orange-500 w-4 h-4" /></label>
+            <label class="flex items-center justify-between p-3.5 rounded-2xl bg-white/[0.05]"><span>WhatsApp Automated Payment Reminders</span><input type="checkbox" checked class="accent-orange-500 w-4 h-4" /></label>
+            <label class="flex items-center justify-between p-3.5 rounded-2xl bg-white/[0.05]"><span>NIC IRP Instant E-Invoice Generation</span><input type="checkbox" checked class="accent-orange-500 w-4 h-4" /></label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Minimal Footer -->
+  <footer class="relative z-10 border-t border-white/10 py-8 px-4 sm:px-6">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+      <div class="font-display font-extrabold text-sm text-white">Biz<span class="text-orange-400">Buddy</span> · Spatial GST &amp; Business OS</div>
+      <div>© 2026 BizBuddy Technologies Pvt. Ltd. · All Rights Reserved</div>
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       FLOATING 3D LIQUID GLASS SPHERE AI ASSISTANT WIDGET (FREELY DRAGGABLE & PINNED)
+  ========================================================== -->
+  <div id="floatingAiContainer" style="right: 22px; bottom: 22px;">
+    <!-- 3D Liquid Glass Sphere Trigger Button (Matching 2nd Uploaded Picture) -->
+    <button id="aiSphereTriggerBtn" type="button" aria-label="BizBuddy 3D AI Assistant (Drag to move anywhere, click to chat)" title="Drag anywhere on screen · Click to chat with BizBuddy AI" class="group relative focus:outline-none block">
+      <!-- Outer Glowing Amber Aura Ring -->
+      <span class="absolute -inset-2 rounded-full bg-gradient-to-tr from-orange-500/55 via-amber-400/40 to-yellow-200/30 blur-lg opacity-85 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 pointer-events-none"></span>
+      <!-- Multi-Axis 3D Gyroscope Rings Orbiting the Sphere -->
+      <span class="ai-sphere-gyro-1" aria-hidden="true"><span class="ai-gyro-dot"></span></span>
+      <span class="ai-sphere-gyro-2" aria-hidden="true"><span class="ai-gyro-dot" style="top:auto;bottom:-3.5px;background:#FB923C;"></span></span>
+      <div id="aiCrystalSphere" class="ai-crystal-sphere flex items-center justify-center">
+        <div class="brand-emblem-3d-layer">
+          <svg class="w-14 h-14 pointer-events-none" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="orbBStroke" x1="12" y1="10" x2="52" y2="54" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FFFBEB"/>
+                <stop offset="0.4" stop-color="#FDBA74"/>
+                <stop offset="0.75" stop-color="#F97316"/>
+                <stop offset="1" stop-color="#FDE68A"/>
+              </linearGradient>
+              <linearGradient id="orbBBody" x1="18" y1="14" x2="46" y2="50" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FEF3C7" stop-opacity="0.65"/>
+                <stop offset="0.45" stop-color="#F97316" stop-opacity="0.48"/>
+                <stop offset="1" stop-color="#9A3412" stop-opacity="0.7"/>
+              </linearGradient>
+              <linearGradient id="orbGoldBar" x1="24" y1="26" x2="39" y2="45" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FFFBEB"/>
+                <stop offset="0.35" stop-color="#FBBF24"/>
+                <stop offset="0.75" stop-color="#D97706"/>
+                <stop offset="1" stop-color="#92400E"/>
+              </linearGradient>
+            </defs>
+            <!-- Dual Orbital Energy Rings inside Crystal Sphere -->
+            <g class="brand-orbit-ring-svg">
+              <circle cx="32" cy="32" r="27" stroke="#FDBA74" stroke-opacity="0.55" stroke-width="1"/>
+              <ellipse cx="32" cy="32" rx="27" ry="14" transform="rotate(-24 32 32)" stroke="#FEF08A" stroke-opacity="0.65" stroke-width="1.1"/>
+            </g>
+            <!-- Sparkle Particles -->
+            <circle class="brand-spark-dot" cx="14" cy="20" r="1.3" fill="#FEF08A"/>
+            <circle class="brand-spark-dot" style="animation-delay:0.9s" cx="50" cy="18" r="1.4" fill="#FDE68A"/>
+            <circle class="brand-spark-dot" style="animation-delay:1.5s" cx="48" cy="46" r="1.2" fill="#FDBA74"/>
+            <!-- 3D Beveled Translucent Amber Glass 'B' -->
+            <path d="M18.2 14H33.6C39.6 14 43.8 17.2 43.8 22.2C43.8 25.4 41.9 27.9 39 29.2C42.8 30.4 45.3 33.4 45.3 37.7C45.3 43.5 40.6 47.6 34 47.6H18.2V14ZM24.2 19V26.6H32.3C35 26.6 36.8 25 36.8 22.8C36.8 20.6 35 19 32.3 19H24.2ZM24.2 31.6V42.6H33.2C36.3 42.6 38.3 40.8 38.3 37.1C38.3 33.4 36.3 31.6 33.2 31.6H24.2Z"
+              fill="url(#orbBBody)" stroke="url(#orbBStroke)" stroke-width="1.75" stroke-linejoin="round"/>
+            <!-- 4 Ascending Metallic Gold Bar-Chart Columns -->
+            <rect x="24.5" y="38.6" width="2.7" height="6.2" rx="0.55" fill="url(#orbGoldBar)" stroke="#FFFBEB" stroke-width="0.45"/>
+            <rect x="27.85" y="35.7" width="2.7" height="9.1" rx="0.55" fill="url(#orbGoldBar)" stroke="#FFFBEB" stroke-width="0.45"/>
+            <rect x="31.2" y="32.5" width="2.7" height="12.3" rx="0.55" fill="url(#orbGoldBar)" stroke="#FFFBEB" stroke-width="0.45"/>
+            <rect x="34.55" y="28.9" width="2.7" height="15.9" rx="0.55" fill="url(#orbGoldBar)" stroke="#FFFFFF" stroke-width="0.6"/>
+            <!-- Starburst Glint on Peak Bar -->
+            <g class="brand-spark-dot" transform="translate(36.9 29.1)">
+              <circle r="1.6" fill="#FFFFFF"/>
+              <path d="M-3.8 0H3.8M0 -3.8V3.8" stroke="#FFFBEB" stroke-width="0.75" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <span class="keep-white absolute -top-2 -left-2 px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-gradient-to-r from-orange-500 to-amber-500 text-white border border-white/40 shadow-md pointer-events-none">AI</span>
+    </button>
+  </div>
+
+  <!-- Smart Auto-Positioned Expandable Liquid Glass AI Assistant Drawer -->
+  <div id="aiAssistantDrawer" class="hidden w-[330px] sm:w-[395px] liquid-glass rounded-[30px] p-5 shadow-[0_28px_70px_rgba(0,0,0,0.85)] border border-orange-400/40">
+    <div id="aiDrawerDragHeader" class="flex items-center justify-between pb-3 border-b border-white/15 cursor-move" title="Drag header to reposition">
+      <div class="flex items-center gap-2.5">
+        <div class="keep-white w-9 h-9 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-obsidian font-black text-xs shadow-[0_0_16px_rgba(249,115,22,0.75)]">B</div>
+        <div>
+          <div class="text-sm font-extrabold text-white flex items-center gap-1.5">
+            <span>BizBuddy AI</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          </div>
+          <div class="text-[10px] text-orange-300 font-semibold">Pinned 3D Copilot · Drag Sphere Anywhere</div>
+        </div>
+      </div>
+      <button type="button" id="closeAiDrawerBtn" aria-label="Close AI Assistant" class="w-8 h-8 rounded-full bg-white/[0.08] hover:bg-white/[0.16] text-slate-300 flex items-center justify-center text-sm cursor-pointer">✕</button>
+    </div>
+
+    <!-- Chat Feed -->
+    <div id="floatingAiFeed" class="h-60 overflow-y-auto space-y-2.5 my-3 pr-1 text-xs">
+      <div class="p-3 rounded-2xl bg-white/[0.07] border border-white/10 text-slate-200 leading-relaxed">
+        Hi! I’m <strong class="text-orange-300">BizBuddy AI</strong>. You can drag my 3D crystal sphere anywhere on your screen, and I stay pinned across every slide! Ask about your <span class="text-amber-300 font-semibold">Health Score (88/100)</span>, GST, or dues.
+      </div>
+    </div>
+
+    <!-- Quick Prompt Chips -->
+    <div class="flex flex-wrap gap-1.5 mb-3">
+      <button type="button" class="float-ai-chip px-2.5 py-1 rounded-full text-[11px] font-semibold bg-orange-500/15 hover:bg-orange-500/30 border border-orange-400/35 text-orange-200 cursor-pointer">Health Score Tips</button>
+      <button type="button" class="float-ai-chip px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-500/15 hover:bg-amber-500/30 border border-amber-400/35 text-amber-200 cursor-pointer">GST Liability</button>
+      <button type="button" class="float-ai-chip px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-500/15 hover:bg-emerald-500/30 border border-emerald-400/35 text-emerald-200 cursor-pointer">Pending Dues</button>
+    </div>
+
+    <!-- Input Form -->
+    <form id="floatingAiForm" class="flex gap-2">
+      <input id="floatingAiInput" type="text" required placeholder="Ask BizBuddy AI..." class="flex-1 px-3.5 py-2.5 rounded-xl bg-white/[0.08] border border-white/20 text-xs text-white placeholder:text-slate-400 focus:border-orange-400 focus:outline-none" />
+      <button type="submit" class="keep-white px-4 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 shadow-[0_6px_18px_rgba(249,115,22,0.5)] cursor-pointer">Ask</button>
+    </form>
+  </div>
+
+  <!-- =========================================================
+       LOGIN & SIGN UP 3D LIQUID GLASS MODAL
+  ========================================================== -->
+  <div id="authModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
+    <div class="w-full max-w-md liquid-glass rounded-[32px] p-6 sm:p-8 relative border border-orange-400/40 shadow-[0_30px_80px_rgba(0,0,0,0.85)]">
+      <button type="button" id="closeAuthModalBtn" aria-label="Close Auth Modal" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/[0.08] hover:bg-white/[0.16] text-slate-300 flex items-center justify-center text-sm cursor-pointer">✕</button>
+
+      <div class="flex items-center gap-2.5 mb-5">
+        <div class="keep-white w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-obsidian font-black text-lg">B</div>
+        <div>
+          <h3 id="authModalTitle" class="text-xl font-extrabold text-white">Welcome Back to BizBuddy</h3>
+          <p class="text-xs text-slate-400">Access your 12-Module Spatial GST &amp; Finance OS</p>
+        </div>
+      </div>
+
+      <!-- Mode Switch Tabs -->
+      <div class="grid grid-cols-2 gap-1 p-1 rounded-2xl bg-white/[0.05] border border-white/15 mb-5">
+        <button type="button" id="tabLoginMode" class="py-2 rounded-xl text-xs font-bold bg-orange-500/25 text-white border border-orange-400/45 cursor-pointer">Log In</button>
+        <button type="button" id="tabSignupMode" class="py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white cursor-pointer">Sign Up</button>
+      </div>
+
+      <form id="authForm" class="space-y-3.5">
+        <div id="signupExtraFields" class="hidden space-y-3.5">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Owner Name</label>
+            <input id="authOwnerName" type="text" placeholder="e.g. Aarav Sharma" class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-sm text-white" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Business / Company Name</label>
+            <input id="authBizName" type="text" placeholder="e.g. Apex Tech Solutions" class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-sm text-white" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">GSTIN (Optional)</label>
+            <input id="authGstin" type="text" placeholder="e.g. 29AABCA8492K1Z5" class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-sm text-white uppercase" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Work Email</label>
+          <input id="authEmail" type="email" required value="aarav@apextech.in" class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-sm text-white" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+          <input id="authPassword" type="password" required value="BizBuddy@2026" class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.06] border border-white/15 text-sm text-white" />
+        </div>
+
+        <p id="bbAuthError" class="hidden text-[11px] font-semibold text-red-300 bg-red-500/10 border border-red-400/25 rounded-xl px-3 py-2"></p>
+        <button type="submit" id="authSubmitBtn" class="keep-white w-full py-3 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 shadow-[0_10px_28px_rgba(249,115,22,0.5)] border border-white/25 cursor-pointer">
+          Log In &amp; Open Dashboard
+        </button>
+      </form>
+
+      <div class="mt-4 pt-4 border-t border-white/10 text-center">
+        <button type="button" id="instantDemoLoginBtn" class="text-xs font-semibold text-amber-300 hover:text-amber-200 underline underline-offset-4 cursor-pointer">
+          ⚡ Instant 1-Click Demo Workspace Login
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       PRINTABLE / DOWNLOADABLE GST INVOICE PREVIEW MODAL
+  ========================================================== -->
+  <div id="invoicePreviewModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+    <div class="w-full max-w-2xl liquid-glass rounded-[30px] p-6 sm:p-8 relative border border-orange-400/40">
+      <div class="flex items-center justify-between pb-4 border-b border-white/15">
+        <h3 class="text-lg font-extrabold text-white">GST Tax Invoice Preview</h3>
+        <div class="flex items-center gap-2">
+          <button type="button" id="downloadInvoiceFileBtn" class="keep-white px-4 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 cursor-pointer">⬇ Download / Print PDF</button>
+          <button type="button" id="closeInvoicePreviewBtn" class="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center text-sm cursor-pointer">✕</button>
+        </div>
+      </div>
+      <div id="printableInvoiceArea" class="mt-5 p-6 rounded-2xl bg-white text-slate-900 space-y-4 text-xs sm:text-sm"></div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       CORE 3D, DASHBOARD, AUTH, THEME & GEMINI AI ENGINE
+  ========================================================== -->
+  <!-- Moved to backend.js (1565 lines): <script> -->
+  <!-- </script> -->
+<!-- Moved to backend.js (11 lines): <script> -->
+<!-- </script> -->
+</body>
+</html>
