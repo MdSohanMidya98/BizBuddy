@@ -1,1 +1,8 @@
-
+{
+  "name": "bizbuddy",
+  "version": "1.0.0",
+  "main": "backend.js",
+  "scripts": {
+    "start": "node backend.js"
+  }
+}
